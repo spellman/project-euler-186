@@ -3,7 +3,8 @@
             [clojure.spec.test.alpha :as stest]
             [clojure.spec.gen.alpha :as gen]
             [clojure.set]
-            [clojure.algo.generic.math-functions :as math]))
+            [clojure.algo.generic.math-functions :as math])
+  (:import [DisjointSet]))
 
 ;; LAGGED FIBONACCI GENERATOR
 ;; See https://en.wikipedia.org/wiki/Lagged_Fibonacci_generator.
@@ -471,4 +472,27 @@
             (recur (inc call-idx) num-success-calls)
             (do
               (union-ap sets u1 u2)
+              (recur (inc call-idx) (inc num-success-calls)))))))))
+
+
+
+
+
+
+
+;; JAVA DISJOINT-SET WITH ARRAY OF INTS WITH PATH-COMPRESSION
+
+(defn disj-set-jp [num-users prime-minister percent-friends]
+  (let [num-friends-stop-threshold (* (/ percent-friends 100)
+                                      num-users)
+        ds (DisjointSet. num-users)]
+    (loop [call-idx (long 1)
+           num-success-calls (long 0)]
+      (if (<= num-friends-stop-threshold (.connectedness ds prime-minister))
+        num-success-calls
+        (let [[u1 u2 :as call] (make-call call-idx)]
+          (if-not (valid-call? call)
+            (recur (inc call-idx) num-success-calls)
+            (do
+              (.union ds u1 u2)
               (recur (inc call-idx) (inc num-success-calls)))))))))

@@ -74,7 +74,11 @@ The initial graph has a vertex for each user and no edges. We proceed as follows
 
 After submitting my answer to Project Euler, I browsed the comment thread to find that the goal of the problem was to encourage people to learn/use the [disjoint-set data structure](https://en.wikipedia.org/wiki/Disjoint-set_data_structure). In fact, the comments showed this approach to have been used nearly universally. The reported run-times were less than I was seeing with my approach; some were two orders of magnitude less.
 
-I wrote versions of a disjoint-set with Clojure's persistent data structures, with and without path compression, and versions with a vector of atoms, without and without path compression. In each case with path compression, I tried both 1) tracking the nodes visited on the path to the root and updating all of their parents to the root, and 2) updating the parent of only the node for whose root parent we were looking.
+I wrote versions of a disjoint-set:
+*   with Clojure's persistent data structures, with and without path compression
+*   with a vector of atoms, without and without path compression
+*   in Java, with an array of structs (Node instances), with path compression
+In the Clojure cases with path compression, I tried both 1) tracking the nodes visited on the path to the root and updating all of their parents to the root, and 2) updating the parent of only the node for whose root parent we were looking. In the Java version, I only tried the latter.
 
 Additionally, I found three existing Clojure implementations (though using them seems like it would defeat part of this exercise):
 *   https://github.com/jordanlewis/data.union-find, which uses mutability
@@ -95,6 +99,7 @@ disjoint-set w/persistent data structures, path -> root path compress | 11.79304
 `disjoint-set-atoms` w/vector of atoms, no path compress | 8.717043 sec
 `disjoint-set-atoms+path-compress` w/vector of atoms, base -> root path compress | 8.973145 sec
 disjoint-set w/vector of atoms, path -> root path compress | 12.846392 sec
+`disjoint-set-java+path-compress` w/array of nodes, base -> root path compress | 5.294673 sec
 
 
 
@@ -114,3 +119,8 @@ I'm comfortable with the namespaces for a project of this size. The algorithms n
 The graph-coloring algorithm was easy to spec and all of the specs/functions can be exercised and/or checked.
 
 I would need to become more proficient with spec to do the disjoint-set code, though, because the size of the val and parent indices must be constrained by the number of sets generated or else we'll get out of bounds. I'll have to think more about how to do that. We could only generate sets of size number-of-users = 1,000,000 but that makes checking very slow. We could specify a small number of users (10 or 100 or something) and always generate sets of that size if we don't plan to instrument in non-spec testing or in production. Without viable generators the return-value specs (required by fdef) are no better than comments. Ultimately, I decided to remove all of the specs from the disjoint-set code.
+
+
+### Java Version Of Disjoint Set
+
+I wanted to see how much faster a Java version would run. Not much: twice as fast as updating persistent data structures in Clojure. 

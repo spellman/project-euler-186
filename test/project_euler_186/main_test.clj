@@ -160,6 +160,7 @@
     (valid-alg "disjoint-set+path-compress")
     (valid-alg "disjoint-set-atoms")
     (valid-alg "disjoint-set-atoms+path-compress")
+    (valid-alg "disjoint-set-java+path-compress")
 
     (invalid-alg "")
     (invalid-alg "nil")))
@@ -172,11 +173,12 @@
                   (invalid-alg alg))))
 
 (deftest get-algorithm-matches-names-to-functions
+  (is (= #'alg/graph-coloring (get-algorithm "graph-coloring")))
   (is (= #'alg/disj-set (get-algorithm "disjoint-set")))
   (is (= #'alg/disj-set-p (get-algorithm "disjoint-set+path-compress")))
   (is (= #'alg/disj-set-a (get-algorithm "disjoint-set-atoms")))
   (is (= #'alg/disj-set-ap (get-algorithm "disjoint-set-atoms+path-compress")))
-  (is (= #'alg/graph-coloring (get-algorithm "graph-coloring"))))
+  (is (= #'alg/disj-set-jp (get-algorithm "disjoint-set-java+path-compress"))))
 
 (defspec get-algorithm-defaults-to-graph-coloring-for-unknown-algorithm-name
   (prop/for-all [s (gen/such-that (complement (set algorithms))

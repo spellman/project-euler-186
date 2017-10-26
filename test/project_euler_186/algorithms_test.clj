@@ -52,6 +52,9 @@
   (is (= answer (disj-set-ap 1000000 prime-minister 99)))
   (is (= 0 (disj-set-ap 1000000 prime-minister 0))))
 
+(deftest disj-set-jp-produces-the-correct-answer
+  (is (= answer (disj-set-jp 1000000 prime-minister 99)))
+  (is (= 0 (disj-set-jp 1000000 prime-minister 0))))
 
 
 
@@ -79,3 +82,8 @@
   (is (<= (disj-set-ap 1000000 prime-minister 5)
           (disj-set-ap 1000000 prime-minister 50)
           (disj-set-ap 1000000 prime-minister 90))))
+
+(deftest disj-set-jp-num-calls-grows-with-percent-of-users
+  (is (<= (disj-set-jp 1000000 prime-minister 5)
+          (disj-set-jp 1000000 prime-minister 50)
+          (disj-set-jp 1000000 prime-minister 90))))

@@ -21,7 +21,8 @@
                  "disjoint-set"
                  "disjoint-set+path-compress"
                  "disjoint-set-atoms"
-                 "disjoint-set-atoms+path-compress"])
+                 "disjoint-set-atoms+path-compress"
+                 "disjoint-set-java+path-compress"])
 (def default-algorithm "graph-coloring")
 
 (defn indent-each-on-new-line [strs indent]
@@ -118,6 +119,7 @@ Run the program with no arguments to use the values given in the problem for the
     "disjoint-set+path-compress" #'alg/disj-set-p
     "disjoint-set-atoms" #'alg/disj-set-a
     "disjoint-set-atoms+path-compress" #'alg/disj-set-ap
+    "disjoint-set-java+path-compress" #'alg/disj-set-jp
     #'alg/graph-coloring))
 
 (defn exit [status msg]
