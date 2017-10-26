@@ -2,7 +2,7 @@
   (:require [clojure.test :as t :refer [deftest testing is]]
             [project-euler-186.algorithms :refer :all]))
 
-;; From problem statement
+;; From the problem statement
 (def prime-minister 524287)
 
 (def first-calls
@@ -29,7 +29,11 @@
 
 
 
-;; As per Project Euler
+;; Let's test what we know:
+;; * The answer, as per Project Euler.
+;; * Before any calls have been made, the prime minister has 0 friends.
+;; * Reaching higher friend percentages requires more calls.
+
 (def answer 2325629)
 
 (deftest graph-coloring-produces-the-correct-answer
