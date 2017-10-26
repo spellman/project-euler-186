@@ -80,10 +80,9 @@ RecNr  Caller  Called
     3  600863  701497
   ...     ...     ...
 
-The telephone number of the caller and the called number in record n are Caller(n) = S2n-1 and Called(n) = S2n where S1,2,3,... come from the \"Lagged Fibonacci Generator\":
-
-For 1 ≤ k ≤ 55, Sk = [100003 - 200003k + 300007k3] (modulo 1000000)
-For 56 ≤ k, Sk = [Sk-24 + Sk-55] (modulo 1000000)
+The telephone number of the caller and the called number in record n are Caller(n) = S_(2n-1) and Called(n) = S_(2n) where S_(1,2,3,...) come from the \"Lagged Fibonacci Generator\":
+For 1 ≤ k ≤ 55, S_k = [100003 - 200003*k + 300007*(k^3)] (modulo 1000000)
+For 56 ≤ k, S_k = [S_(k-24) + S_(k-55)] (modulo 1000000)
 
 If Caller(n) = Called(n) then the user is assumed to have misdialled and the call fails; otherwise the call is successful.
 
