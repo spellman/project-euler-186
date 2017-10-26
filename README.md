@@ -1,6 +1,6 @@
 # Project Euler Problem 186
 
-This program solves Project Euler problem 186: https://projecteuler.net/problem=186:
+This program solves Project Euler problem 186: https://projecteuler.net/problem=186.
 
 
 
@@ -16,8 +16,7 @@ RecNr | Caller | Called
 3 | 600863 | 701497
 ... | ... | ...
 
-The telephone number of the caller and the called number in record n are Caller(n) = S<sub>2n-1</sub> and Called(n) = S<sub>2n</sub> where S<sub>1,2,3,...</sub> come from the "Lagged Fibonacci Generator":
-
+The telephone number of the caller and the called number in record n are Caller(n) = S<sub>2n-1</sub> and Called(n) = S<sub>2n</sub> where S<sub>1,2,3,...</sub> come from the "Lagged Fibonacci Generator":   
 For 1 ≤ k ≤ 55, S<sub>k</sub> = [100003 - 200003k + 300007k<sup>3</sup>] (modulo 1000000)   
 For 56 ≤ k, S<sub>k</sub> = [S<sub>k-24</sub> + S<sub>k-55</sub>] (modulo 1000000)
 
@@ -41,13 +40,13 @@ With no arguments (e.g., `$ lein run`) the program will use the graph-coloring a
 
 You may specify your own values with command-line flags:
 
-Short | Long | Argument | Default | Description
------ | ---- | -------- | ------- | -----------
-| | `--prime-minister` | PRIME-MINISTER  | 524287 | The number of the prime minister. int <- [0, 999,999]
-| | `--percent-friends` | PERCENT-FRIENDS | 99 | Threshold percentage of friends at which to stop and return the result. num <- [0, 100]"
-`-a` | `--algorithm` | ALGORITHM | graph-coloring | The friend-counting algorithm to use. See available algorithms below.
-`-b` | `--benchmark` | (none) | Runs a benchmark with Criterium quick-bench.
-`-h` | `--help` | (none) | (none) | Prints a description of the program and its usage.
+| Short | Long | Argument | Default | Description |
+| ------ | ---- | -------- | ------- | ----------- |
+| | `--prime-minister` | int in [0, 999,999] | 524287 | The number of the prime minister. |
+| | `--percent-friends` | num in [0, 100] | 99 | Threshold percentage of friends at which to stop and return the result. |
+| `-a` | `--algorithm` | see "Comparison" below | graph-coloring | The friend-counting algorithm to use. |
+| `-b` | `--benchmark` | (none) | (none) | Runs a benchmark with Criterium quick-bench. |
+| `-h` | `--help` | (none) | (none) | Prints a description of the program and its usage. |
 
 Note that you may need to preface your options with `--` to differentiate them from arguments to lein/boot/java/other. E.g., since lein has its own `-h` option, we bring up the help text with `$ lein run -- -h`.
 
@@ -63,7 +62,7 @@ I initially visualized the problem via graph coloring. I represented the graph a
 The initial graph has a vertex for each user and no edges. We proceed as follows:
 1.  Generate a successful call from user i to user j.
 2.  Add an undirected edge between verticies i and j. The edge is undirected because the call makes the vertices friends of each other.
-    *   Note that when the Prime Minister calls user i, the PM becomes their own friend because the `friends-with` relation is given to be transitive: PM `friends-with` i `friends-with` PM => PM `friends-with` PM.
+    *   Note that when the Prime Minister calls user i, the PM becomes their own friend because the *friends-with* relation is given to be transitive: PM *friends-with* i *friends-with* PM => PM *friends-with* PM.
 3.  Color the subgraph connected to i (which is the subgraph connected to j, since i and j are connected).
     *   This subgraph may contain cycles but we can stop and backtrack when we reach a colored vertex. The uncolored vertices of the subgraph therefore form a tree.
     *   I got stack overflow exceptions when traversing these trees with `clojure.core/tree-seq` so I used a stack to enumerate the tree depth-first and then colored the vertices in that stack. I ported the graph-walking code from http://kmkeen.com/python-trees/.
@@ -78,7 +77,9 @@ I wrote versions of a disjoint-set:
 *   with Clojure's persistent data structures, with and without path compression
 *   with a vector of atoms, without and without path compression
 *   in Java, with an array of structs (Node instances), with path compression
-In the Clojure cases with path compression, I tried both 1) tracking the nodes visited on the path to the root and updating all of their parents to the root, and 2) updating the parent of only the node for whose root parent we were looking. In the Java version, I only tried the latter.
+
+In the Clojure cases with path compression, I tried both 1) tracking the nodes visited on the path to the root and updating all of their parents to the root, and 2) updating the parent of only the node for whose root parent we were looking.   
+In the Java version, I only tried the latter.
 
 Additionally, I found three existing Clojure implementations (though using them seems like it would defeat part of this exercise):
 *   https://github.com/jordanlewis/data.union-find, which uses mutability
@@ -88,18 +89,18 @@ Additionally, I found three existing Clojure implementations (though using them 
 
 ### Comparison
 
-I benchmarked the various algorithms with Criterium (with `criterium.core/quick-bench`) on a laptop with a 2.60 GHz quad-core i7 and 16GB RAM:
+I benchmarked the various algorithms with Criterium (`criterium.core/quick-bench`) on a laptop with a 2.60 GHz quad-core i7 and 16GB RAM:
 
 Algorithm / Flag | Time
 ---------------- | ----
-`graph-coloring` | 17.098633 sec
-`disjoint-set` w/persistent data structures, no path compress | 9.924961 sec
-`disjoint-set+path-compress` w/persistent data structures, base -> root path compress | 10.949421 sec
-disjoint-set w/persistent data structures, path -> root path compress | 11.793040 sec
-`disjoint-set-atoms` w/vector of atoms, no path compress | 8.717043 sec
-`disjoint-set-atoms+path-compress` w/vector of atoms, base -> root path compress | 8.973145 sec
-disjoint-set w/vector of atoms, path -> root path compress | 12.846392 sec
-`disjoint-set-java+path-compress` w/array of nodes, base -> root path compress | 5.294673 sec
+`graph-coloring` | <div align="right">17.098633 sec</div>
+`disjoint-set` w/persistent data structures, no path compress | <div align="right">9.924961 sec</div>
+`disjoint-set+path-compress` w/persistent data structures, base -> root path compress | <div align="right">10.949421 sec</div>
+disjoint-set w/persistent data structures, path -> root path compress | <div align="right">11.793040 sec</div>
+`disjoint-set-atoms` w/vector of atoms, no path compress | <div align="right">8.717043 sec</div>
+`disjoint-set-atoms+path-compress` w/vector of atoms, base -> root path compress | <div align="right">8.973145 sec</div>
+disjoint-set w/vector of atoms, path -> root path compress | <div align="right">12.846392 sec</div>
+`disjoint-set-java+path-compress` w/array of nodes, base -> root path compress | <div align="right">5.294673 sec</div>
 
 
 
@@ -125,4 +126,4 @@ I would need to become more proficient with spec to do the disjoint-set code, th
 
 ### Java Version Of Disjoint Set
 
-I wanted to see how much faster a Java version would run. Not much: twice as fast as updating persistent data structures in Clojure. 
+I wanted to see how much faster a Java version would run. Not much: twice as fast as updating persistent data structures in Clojure.
