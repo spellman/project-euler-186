@@ -127,3 +127,8 @@ I would need to become more proficient with spec to do the disjoint-set code, th
 ### Java Version Of Disjoint Set
 
 I wanted to see how much faster a Java version would run. Not much: twice as fast as updating persistent data structures in Clojure.
+
+
+### Test Reporting
+
+In `project-euler-186.main-test` I factored out a number of assertions into helper functions. This cleans up the test code considerably but failures only show the helper-function code &mdash; terrible. I'll have to find a way to keep the readability of both the test code and the failure reports but I'll leave the tests for now as a reminder.
