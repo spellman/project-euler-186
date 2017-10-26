@@ -35,7 +35,7 @@ After how many successful calls, not counting misdials, will 99% of the users (i
 
 ## Program Usage
 
-Use your preferred method of running Clojure programs from the command line :)
+NOTE: The Java code needs to be compiled before the program is run. `$ lein run` does this automatically but ensure the Java is compiled (`$ lein javac`) before opening a REPL.
 
 With no arguments (e.g., `$ lein run`) the program will use the graph-coloring algorithm to count friends (see below) and the values given in the problem for the Prime Minister and threshold percentage of users.
 
@@ -57,8 +57,8 @@ Note that you may need to preface your options with `--` to differentiate them f
 
 ### Graph Coloring
 I initially visualized the problem via graph coloring. I represented the graph as an adjacency list:
-*   An adjacency matrix (10^12) would not fit in memory on many machines.
-*   I expected the matrix to be sparse, which suggests using a list instead. We stop with 2,325,629 ~ 10^6 edges so the matrix would have been very sparse indeed.
+*   An adjacency matrix (10<sup>12</sup>) would not fit in memory on many machines.
+*   I expected the matrix to be sparse, which suggests using a list instead. We stop with ~ 10<sup>6</sup> edges so the matrix would have been very sparse indeed.
 
 The initial graph has a vertex for each user and no edges. We proceed as follows:
 1.  Generate a successful call from user i to user j.
@@ -105,16 +105,18 @@ disjoint-set w/vector of atoms, path -> root path compress | 12.846392 sec
 
 ## Notes
 
-### Loop-recur
+### Loop-Recur
 
 Collection/stream-processing functions (map, filter, reduce, etc.) are usually the work-horses of my Clojure code but this problem was amenable to recursion.
 
-### Code organization
+
+### Code Organization
+
 
 I'm comfortable with the namespaces for a project of this size. The algorithms namespace could be broken up as the graph coloring has nothing to do with the disjoint-set implementations and the latter wouldn't need suffixes to differentiate their function names.
 
 
-### Algorithm speccability
+### Algorithm Speccability
 
 The graph-coloring algorithm was easy to spec and all of the specs/functions can be exercised and/or checked.
 
