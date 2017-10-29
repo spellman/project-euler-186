@@ -1,7 +1,5 @@
 (ns project-euler-186.algorithms
   (:require [clojure.spec.alpha :as s]
-            [clojure.spec.test.alpha :as stest]
-            [clojure.spec.gen.alpha :as gen]
             [clojure.set]
             [clojure.algo.generic.math-functions :as math])
   (:import [DisjointSet]))
@@ -146,7 +144,7 @@
   bounding).
   The depth-first search is achieved by using a stack to hold the vertices to
   be walked, where vertices connected to the current vertex are pushed onto the
-  to-be-walk stack."
+  to-be-walked stack."
   [vertex adj-list bounding-vertices]
   (loop [to-walk-stack [vertex]
          visited #{}
@@ -242,7 +240,7 @@
 ;; DISJOINT-SET WITH PERSISTENT DATA STRUCTURES AND WITHOUT PATH-COMPRESSION
 ;;
 ;; See https://en.wikipedia.org/wiki/Disjoint-set_data_structure.
-;; Each vertex begins as in a set by itself, as its own parent.
+;; We begin with each vertex in a set by itself, as its own parent.
 ;; When an edge is added to the graph, its vertices are merged by updating the
 ;; parent of the vertex of lesser rank to be the vertex of greater rank.
 ;; Rather than count the vertices in a partition of the graph after every call

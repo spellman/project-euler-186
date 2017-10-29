@@ -7,14 +7,6 @@
             [criterium.core :as c])
   (:gen-class))
 
-(defn make-conformer [spec xf]
-  (fn [val]
-    (let [conformed (s/conform spec (xf val))]
-      (if (= conformed ::s/invalid)
-        (throw
-         (ex-info (s/explain spec conformed) (s/explain-data spec conformed)))
-        conformed))))
-
 (def default-prime-minister 524287)
 (def default-percent-friends 99)
 (def algorithms ["graph-coloring"
