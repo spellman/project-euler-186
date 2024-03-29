@@ -75,7 +75,7 @@ After submitting my answer to Project Euler, I browsed the comment thread to fin
 
 I wrote versions of a disjoint-set:
 *   with Clojure's persistent data structures, with and without path compression
-*   with a vector of atoms, without and without path compression
+*   with a vector of atoms, with and without path compression
 *   in Java, with an array of structs (Node instances), with path compression
 
 In the Clojure cases with path compression, I tried both 1) tracking the nodes visited on the path to the root and updating all of their parents to the root, and 2) updating the parent of only the node for whose root parent we were looking.   
